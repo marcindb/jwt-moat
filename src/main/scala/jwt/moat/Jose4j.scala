@@ -10,19 +10,21 @@ import scala.collection.JavaConverters._
 import scala.language.implicitConversions
 import scala.util.{Failure, Success, Try}
 
-object Jose4j  {
+trait Jose4j extends JwtParser {
 
-  val logger = LoggerFactory.getLogger(Jose4j.getClass)
+  self =>
+
+  val logger = LoggerFactory.getLogger(self.getClass)
 
   import Checks._
 
-  def apply(check: Check, jwt: JWT, jwtContext: JwtContext) = {
+  override def parse(check: Check, jwt: JWT, jwtContext: JwtContext): Either[CheckFailed, Claims] = {
     val jwtConsumer = new JwtConsumerBuilder()
-      .setRequireExpirationTime() // the JWT must have an expiration time
-      .setAllowedClockSkewInSeconds(30) // allow some leeway in validating time based claims to account for clock skew
-      .setRequireSubject() // the JWT must have a subject claim
+      .setRequireExpirationTime()
+      .setAllowedClockSkewInSeconds(30)
+      .setRequireSubject()
       //.setExpectedAudience("Audience") // to whom the JWT is intended for
-      .setVerificationKey(jwtContext.key) // verify the signature with the public key
+      .setVerificationKey(jwtContext.key)
       .build()
 
     Try(jwtConsumer.processToClaims(jwt.token)) match {
@@ -33,11 +35,11 @@ object Jose4j  {
     }
   }
 
-  implicit def map(jwtClaims: JwtClaims): Claims =
+  private implicit def map(jwtClaims: JwtClaims): Claims =
     Claims(jwtClaims.getIssuer, jwtClaims.getSubject , "",
       jwtClaims.getExpirationTime, jwtClaims.getNotBefore, jwtClaims.getIssuedAt, jwtClaims.getJwtId,
       jwtClaims.getClaimsMap.asScala.toMap)
 
-  implicit def map(numericDate: NumericDate): Date = new Date(numericDate.getValueInMillis)
+  private implicit def map(numericDate: NumericDate): Date = new Date(numericDate.getValueInMillis)
 
 }
