@@ -17,10 +17,10 @@ object JwtHelper {
     key
   }
 
-  def jwtString(key: Key, algorithm: String) = {
+  def jwtString(key: Key, algorithm: Algorithms.Algorithm) = {
     val claims = new JwtClaims
     claims.setIssuer("Issuer")
-    //claims.setAudience("Audience");
+    claims.setAudience("Audience");
     claims.setExpirationTimeMinutesInTheFuture(10)
     claims.setGeneratedJwtId()
     claims.setIssuedAtToNow()
@@ -32,7 +32,7 @@ object JwtHelper {
     val jws = new JsonWebSignature()
     jws.setPayload(claims.toJson)
     jws.setKey(key)
-    jws.setAlgorithmHeaderValue(algorithm)
+    jws.setAlgorithmHeaderValue(algorithm.jwtName)
     jws.getCompactSerialization
   }
 

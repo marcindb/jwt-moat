@@ -24,7 +24,7 @@ trait JJWT extends JwtParser {
       }
 
   implicit def map(claims: JjwtClaims): Claims =
-    Claims(claims.getIssuer, claims.getSubject , "",
+    Claims(claims.getIssuer, claims.getSubject , claims.getAudience,
       claims.getExpiration, claims.getNotBefore, claims.getIssuedAt, claims.getId,
       claims.asScala.toMap)
 
