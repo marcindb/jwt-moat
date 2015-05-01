@@ -9,7 +9,7 @@ class ExampleSpec extends FlatSpec with Matchers {
     val key = randomKey(32)
     implicit val jwtContext = JwtContext(key, Algorithms.HS256)
     val jwt = JwtHelper.jwtString(jwtContext.key, Algorithms.HS256)
-    val r = Secure()(JWT(jwt)){
+    val r = Secure(jwt){
       case Right(user) => Some(user)
       case Left(e) => None
     }
@@ -22,7 +22,7 @@ class ExampleSpec extends FlatSpec with Matchers {
     val signedContext = JwtContext(key1, Algorithms.HS256)
     implicit val expectedContext = JwtContext(key2, Algorithms.HS256)
     val jwt = JwtHelper.jwtString(signedContext.key, Algorithms.HS256)
-    val r = Secure()(JWT(jwt)){
+    val r = Secure(jwt){
       case Right(user) => Some(user)
       case Left(e) => None
     }
@@ -36,7 +36,7 @@ class ExampleSpec extends FlatSpec with Matchers {
     val signedContext = JwtContext(key1, Algorithms.HS256)
     implicit val expectedContext = JwtContext(key2, Algorithms.HS256)
     val jwt = JwtHelper.jwtString(signedContext.key, Algorithms.HS256)
-    val r = Secure(hasAttribute("test"))(JWT(jwt)){
+    val r = Secure(hasAttribute("test"))(jwt){
       case Right(user) => Some(user)
       case Left(e) => None
     }
