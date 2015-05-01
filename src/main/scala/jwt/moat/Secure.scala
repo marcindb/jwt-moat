@@ -11,7 +11,7 @@ trait JwtParser {
 
 object Secure extends JwtParser with JJWT {
 
-  def apply[T]()(jwt: JWT)(f: PartialFunction[Either[CheckFailed, Claims], T])(implicit jwtContext: JwtContext): T =
+  def apply[T](jwt: JWT)(f: PartialFunction[Either[CheckFailed, Claims], T])(implicit jwtContext: JwtContext): T =
     apply[T](successCheck)(jwt)(f)(jwtContext)
 
   def apply[T](check: Check)(jwt: JWT)(f: PartialFunction[Either[CheckFailed, Claims], T])(implicit jwtContext: JwtContext): T =
