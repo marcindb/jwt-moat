@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/marcindb/jwt-moat.svg?branch=master)](https://travis-ci.org/marcindb/jwt-moat)
