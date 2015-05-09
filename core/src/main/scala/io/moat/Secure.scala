@@ -1,6 +1,6 @@
-package jwt.moat
+package io.moat
 
-import jwt.moat.Checks._
+import Checks._
 
 
 trait JwtParser {

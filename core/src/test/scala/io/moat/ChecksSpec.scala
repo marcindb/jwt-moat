@@ -1,10 +1,10 @@
-package jwt.moat
+package io.moat
 
 import java.util.Date
 
 import language.postfixOps
 
-import jwt.moat.Checks._
+import Checks._
 import org.scalatest.{FlatSpec, Matchers}
 import scala.concurrent.duration._
 

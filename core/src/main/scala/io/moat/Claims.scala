@@ -1,4 +1,4 @@
-package jwt.moat
+package io.moat
 
 import java.security.Key
 import java.util.Date

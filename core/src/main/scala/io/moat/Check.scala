@@ -1,4 +1,4 @@
-package jwt.moat
+package io.moat
 
 import scala.concurrent.duration.FiniteDuration
 import scala.language.implicitConversions

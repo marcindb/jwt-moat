@@ -1,6 +1,6 @@
-package jwt.moat
+package io.moat
 
-import jwt.moat.JwtHelper._
+import JwtHelper._
 import org.scalatest._
 
 class ExampleSpec extends FlatSpec with Matchers {

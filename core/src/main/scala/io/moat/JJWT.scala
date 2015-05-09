@@ -1,4 +1,4 @@
-package jwt.moat
+package io.moat
 
 import io.jsonwebtoken.{Claims => JjwtClaims, Jwts}
 import org.slf4j.LoggerFactory

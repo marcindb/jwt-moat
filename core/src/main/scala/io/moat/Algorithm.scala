@@ -1,4 +1,4 @@
-package jwt.moat
+package io.moat
 
 object Algorithms {
 

@@ -1,4 +1,4 @@
-package jwt.moat
+package io.moat
 
 import java.util.Date
 
