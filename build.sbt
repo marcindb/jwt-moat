@@ -2,7 +2,16 @@ lazy val commonSettings = Seq(
   organization := "io.moat",
   version := "0.1.0",
   crossScalaVersions := Seq("2.10.5", "2.11.6"),
-  scalaVersion := "2.11.6"
+  scalaVersion := "2.10.5"
+)
+
+val commonDependencies = Seq(
+  "org.slf4j" % "slf4j-api" % "1.7.12"
+)
+
+val testDependencies = Seq(
+  "org.scalatest" %% "scalatest" % "2.2.4" % "test",
+  "org.slf4j" % "slf4j-simple" % "1.7.12" % "test"
 )
 
 lazy val root = (project in file(".")).
@@ -15,14 +24,11 @@ lazy val core = (project in file("core")).
     moduleName := "jwt-moat-core",
     libraryDependencies ++= Seq(
       "org.bitbucket.b_c" % "jose4j" % "0.4.1",
-      "org.scalatest" %% "scalatest" % "2.2.4" % "test",
-      "org.slf4j" % "slf4j-api" % "1.7.12",
-      "io.jsonwebtoken" % "jjwt" % "0.4",
-      "org.slf4j" % "slf4j-simple" % "1.7.12" % "test"
-    )
+      "io.jsonwebtoken" % "jjwt" % "0.4"
+    ) ++ commonDependencies ++ testDependencies
   )
 
-val sprayVersion = System.getProperty("spray.version", "1.3.3")
+
 
 val playVersion = System.getProperty("play.version", "2.3.7")
 
@@ -31,9 +37,17 @@ lazy val spray = (project in file("spray")).
   settings(commonSettings: _*).
   settings(
     moduleName := "jwt-moat-spray",
-    libraryDependencies ++= Seq(
-      "io.spray" %% "spray-routing" % sprayVersion % "provided"
-    )
+    libraryDependencies ++= {
+      val akkaVersion = "2.3.9"
+      val sprayVersion = System.getProperty("spray.version", "1.3.3")
+      Seq(
+        "io.spray" %% "spray-can" % sprayVersion,
+        "io.spray" %% "spray-routing" % sprayVersion,
+        "io.spray" %% "spray-testkit" % sprayVersion % "test",
+        "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+        "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"
+      ) ++ commonDependencies ++ testDependencies
+    }
   )
 
 lazy val play = (project in file("play")).
@@ -43,6 +57,6 @@ lazy val play = (project in file("play")).
     moduleName := "jwt-moat-play",
     libraryDependencies ++= Seq(
       "com.typesafe.play" %% "play" % playVersion % "provided"
-    ),
+    ) ++ commonDependencies ++ testDependencies,
     resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
   )
