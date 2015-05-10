@@ -28,10 +28,6 @@ lazy val core = (project in file("core")).
     ) ++ commonDependencies ++ testDependencies
   )
 
-
-
-val playVersion = System.getProperty("play.version", "2.3.7")
-
 lazy val spray = (project in file("spray")).
   dependsOn(core).
   settings(commonSettings: _*).
@@ -55,8 +51,11 @@ lazy val play = (project in file("play")).
   settings(commonSettings: _*).
   settings(
     moduleName := "jwt-moat-play",
-    libraryDependencies ++= Seq(
+    libraryDependencies ++= {
+      val playVersion = System.getProperty("play.version", "2.3.7")
+      Seq(
       "com.typesafe.play" %% "play" % playVersion % "provided"
-    ) ++ commonDependencies ++ testDependencies,
+      ) ++ commonDependencies ++ testDependencies
+    },
     resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
   )
